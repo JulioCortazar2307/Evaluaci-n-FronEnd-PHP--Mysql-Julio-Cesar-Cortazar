@@ -1,14 +1,14 @@
 <?php
 session_start();
-require_once("config/database.php");
+require 'config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
 ?>
 <?php
-if (isset($_POST["inicio"])) {
-    $telefono = $_POST["phone"]; 
-    $contra = $_POST["clave"];   
+if (isset($_GET["inicio"])) {
+    $telefono = $_GET["phone"]; 
+    $contra = $_GET["clave"];   
 
     $sql = $con ->prepare("SELECT * FROM user WHERE telefono = ? AND contrasena = ?") ;
     $sql -> execute([$telefono,$contra]);
@@ -18,33 +18,24 @@ if (isset($_POST["inicio"])) {
 
         $_SESSION['doc_user'] = $fila ['dni'];
         $_SESSION['tipo'] = $fila ['id_tip_user'];
-        
+        $_SESSION['nombre'] = $fila ['nombres'];
         
         if ($_SESSION['tipo']== 1) {
-            header("location:model/instructor/index.php");
-            
+            header("location:model/instructor/index.php"); 
         }
         if ($_SESSION['tipo']== 2) {
             header("location:model/aprendiz/index.php");
-            
         }
         if ($_SESSION['tipo']== 3) {
-            header("location:model/transversal/index.php");
-            
+            header("location:model/transversal/index.php");  
         }
-
     }
-
     else{
         echo '<script> alert("usuario no encontrado")</scritp>' ; 
     }
-
 }
 else{
-
-
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -102,7 +93,7 @@ else{
     <div class="container" align="center">
         <fieldset class="mb-4">
             <legend><i class="fas fa-user" ></i> &nbsp; INICIO DE SESION</legend>
-                <form role="form" class="form-horizontal" method="post" name="form1" id="form1" action="direcion.php" autocomplete="off">
+                <form role="form" class="form-horizontal" method="get" name="form1" id="form1" autocomplete="off">
                     <div class="col-12 col-md-6 col-lg-6">
                         <div class="col-12 col-md-9">
                             <div class="form-outline mb-4">
@@ -166,3 +157,4 @@ else{
 </body>
 
 </html>
+

@@ -1,11 +1,28 @@
 <?php 
 session_start();
-require_once("../config/database.php");
+require '../../config/database.php';
 $db = new Database();
 $con = $db->conectar();
 
 ?> 
 
-<?php 
-echo"hola Tranversal ... ??";
-?> 
+<?php
+if (isset($_GET['cerrar_sesion'])) {
+    session_destroy();
+    header("location:../../index.php");
+    exit;
+} 
+?>
+
+<html>
+    <body>
+        
+    
+<h1>Hola <?php echo$_SESSION['nombre']; ?></h1>
+<br>
+<h2>Para salir presione el boton</h2>
+<form action="get">
+    <button type="submit" name="cerrar_sesion">Cerrar Sesión</button>
+</form>
+</body>
+</html>
